@@ -21,14 +21,17 @@ module.exports = async function requestValidation(req, res) {
   const curTimeStamp = new Date().getTime()
 
   if (requestStore[address]) {
-    const validationWindow = requestStore[address] + WAITING_TIME - curTimeStamp
+    const validationWindow = requestStore[address].requestTimeStamp + WAITING_TIME - curTimeStamp
 
     // still valid
     if (validationWindow > 0) {
-      return res.json(newResponse(address, requestStore[address], Math.floor(validationWindow / 1000)))
+      return res.json(newResponse(address, requestStore[address].requestTimeStamp, Math.floor(validationWindow / 1000)))
     }
   }
 
-  requestStore[address] = curTimeStamp
+  requestStore[address] = {
+    requestTimeStamp: curTimeStamp,
+    validated: false,
+  }
   return res.json(newResponse(address, curTimeStamp, Math.floor(WAITING_TIME / 1000)))
 }

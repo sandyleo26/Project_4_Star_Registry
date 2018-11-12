@@ -15,13 +15,15 @@ module.exports = async function validate(req, res) {
     return res.badRequest('address is not valid')
   }
 
+  // Not return if validated because the behavior is not specified in rubric
+
   const curTimeStamp = new Date().getTime()
-  const validationWindow = requestStore[address] + WAITING_TIME - curTimeStamp
+  const validationWindow = requestStore[address].requestTimeStamp + WAITING_TIME - curTimeStamp
   if (validationWindow < 0) {
     return res.badRequest('validation request expired')
   }
 
-  const message = `${address}:${requestStore[address]}:starRegistry`
+  const message = `${address}:${requestStore[address].requestTimeStamp}:starRegistry`
 
   let verifyResult = false
   try {
@@ -31,11 +33,12 @@ module.exports = async function validate(req, res) {
     verifyResult = false
   }
 
+  requestStore[address].validated = true
   return res.json({
     registerStar: true,
     status: {
       address,
-      requestTimeStamp: requestStore[address].toString(),
+      requestTimeStamp: requestStore[address].requestTimeStamp.toString(),
       message,
       validationWindow,
       messageSignature: verifyResult ? 'valid' : 'invalid',

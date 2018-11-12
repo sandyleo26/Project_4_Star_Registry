@@ -53,7 +53,10 @@ module.exports.globals = {
 
   
   requestStore: {
-    // key1: timestamp,
+    // address1: {
+    //   requestTimeStamp: '',
+    //   validated: false,
+    // },
   },
 
 };
