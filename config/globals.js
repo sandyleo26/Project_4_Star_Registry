@@ -51,4 +51,9 @@ module.exports.globals = {
 
   simpleChain: require('../simpleChain'),
 
+  
+  requestStore: {
+    // key1: timestamp,
+  },
+
 };
