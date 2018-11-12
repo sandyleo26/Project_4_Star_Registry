@@ -11,7 +11,8 @@ axios.post('http://localhost:8000/requestValidation', {
   address,
 })
 .then(res => {
-  console.log('\nrequestValidation res', res.data)
+  console.log('\n#################################')
+  console.log('requestValidation res', res.data)
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const { message } = res.data
@@ -26,7 +27,8 @@ axios.post('http://localhost:8000/requestValidation', {
   })
 })
 .then(res => {
-  console.log('\nvalidate res', res.data)
+  console.log('\n#################################')
+  console.log('validate res', res.data)
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       return axios.post('http://localhost:8000/block', {
@@ -43,7 +45,20 @@ axios.post('http://localhost:8000/requestValidation', {
   })
 })
 .then(res => {
-  console.log('\npost block res', res.data)
+  console.log('\n#################################')
+  console.log('post block', res.data)
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      return axios.get(`http://localhost:8000/block/${res.data.height}`)
+      .then(resolve)
+      .then(reject)
+    }, 2000)
+  })
+})
+.then(res => {
+  console.log('\n#################################')
+  console.log('search by star block height', res.data)
+
 })
 .catch(e => console.log('caught error', e))
 
