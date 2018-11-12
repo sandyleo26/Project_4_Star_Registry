@@ -8,7 +8,7 @@ module.exports = async function validate(req, res) {
     return res.badRequest('address or signature is empty')
   }
 
-  const { requestStore } = sails.config.globals;
+  const { requestStore } = sails.config.globals
   const { address, signature } = req.body
 
   if (!requestStore[address]) {

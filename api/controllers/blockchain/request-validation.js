@@ -16,8 +16,8 @@ module.exports = async function requestValidation(req, res) {
     return res.badRequest('address is empty')
   }
 
-  const { requestStore } = sails.config.globals;
-  const { address } = req.body;
+  const { requestStore } = sails.config.globals
+  const { address } = req.body
   const curTimeStamp = new Date().getTime()
 
   if (requestStore[address]) {
