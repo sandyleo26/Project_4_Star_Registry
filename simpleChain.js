@@ -85,19 +85,29 @@ class Blockchain {
 
   // find address in body
   async findBlockByAddress(address) {
-    return await DB.findBlockBy(value => {
-      const parsedValue = JSON.parse(value)
-      const parsedBody = JSON.parse(parsedValue.body)
-      return parsedBody.address === address
+    const blocks = await DB.findBlocksBy(value => {
+      try {
+        const parsedValue = JSON.parse(value)
+        const parsedBody = JSON.parse(parsedValue.body)
+        return parsedBody.address === address
+      } catch (e) {
+        return false
+      }
     })
+    return blocks.map(block => JSON.parse(block))
   }
 
   // find by block hash
   async findBlockByHash(hash) {
-    return await DB.findBlockBy(value => {
-      const parsedValue = JSON.parse(value)
-      return parsedValue.hash = hash
+    const blocks = await DB.findBlocksBy(value => {
+      try {
+        const parsedValue = JSON.parse(value)
+        return parsedValue.hash === hash
+      } catch (e) {
+        return false
+      }
     })
+    return blocks.map(block => JSON.parse(block))
   }
 
   // validate block

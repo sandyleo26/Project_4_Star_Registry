@@ -19,26 +19,34 @@ module.exports = async function search(req, res) {
     // search by address
     if (method.startsWith('address:')) {
       const address = method.split(':')[1]
-      const result = await myBlockchain.findBlockByAddress(address)
-      if (!result) {
+      const blocks = await myBlockchain.findBlockByAddress(address)
+      if (blocks.length === 0) {
         return res.badRequest('no star found for the address')
       }
 
-      result.body.star.storyDecoded = result.body.star.story
-      result.body.star.story = Buffer.from(result.body.star.story).toString('hex')
+      const result = blocks.map(block => {
+        block.body = JSON.parse(block.body)
+        block.body.star.storyDecoded = block.body.star.story
+        block.body.star.story = Buffer.from(block.body.star.story).toString('hex')
+        return block
+      })
       return res.json(result)
     }
 
     // search by hash
     const hash = method.split(':')[1]
-    const result = await myBlockchain.findBlockByHash(hash)
-    if (!result) {
+    const blocks = await myBlockchain.findBlockByHash(hash)
+    if (blocks.length === 0) {
       return res.badRequest('no star found for the hash')
     }
 
-    result.body.star.storyDecoded = result.body.star.story
-    result.body.star.story = Buffer.from(result.body.star.story).toString('hex')
-    return res.json(result)
+    const result = blocks.map(block => {
+      block.body = JSON.parse(block.body)
+      block.body.star.storyDecoded = block.body.star.story
+      block.body.star.story = Buffer.from(block.body.star.story).toString('hex')
+      return block
+    })
+    return res.json(result[0])
   }
 
   return res.serverError()

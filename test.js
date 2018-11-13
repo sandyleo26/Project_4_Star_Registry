@@ -71,7 +71,7 @@ axios.post('http://localhost:8000/requestValidation', {
   console.log('search by address', res.data)
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      return axios.get(`http://localhost:8000/stars/hash:${res.data.hash}`)
+      return axios.get(`http://localhost:8000/stars/hash:${res.data[0].hash}`)
       .then(resolve)
       .catch(reject)
     }, 2000)

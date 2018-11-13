@@ -68,17 +68,18 @@ function getBlockCount() {
   })
 }
 
-function findBlockBy(f) {
+function findBlocksBy(f) {
   return new Promise((resolve, reject) => {
+    const result = [];
     db.createReadStream()
     .on('data', function (data) {
-      if (f(data.value)) resolve(data.value);
+      if (f(data.value)) result.push(data.value);
     })
     .on('error', function (err) {
       reject(err);
     })
     .on('close', function () {
-      resolve();
+      resolve(result);
     });
   })
 }
@@ -88,7 +89,7 @@ module.exports = {
   getLevelDBData,
   addDataToLevelDB,
   getBlockCount,
-  findBlockBy,
+  findBlocksBy,
 }
 
 /* ===== Testing ==============================================================|
