@@ -18,4 +18,6 @@ module.exports = async function getBlock(req, res) {
       result.body.star.story = Buffer.from(result.body.star.story).toString('hex')
       return res.json(result)
   }
+
+  return res.serverError()
 }

@@ -51,14 +51,35 @@ axios.post('http://localhost:8000/requestValidation', {
     setTimeout(() => {
       return axios.get(`http://localhost:8000/block/${res.data.height}`)
       .then(resolve)
-      .then(reject)
+      .catch(reject)
     }, 2000)
   })
 })
 .then(res => {
   console.log('\n#################################')
   console.log('search by star block height', res.data)
-
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      return axios.get(`http://localhost:8000/stars/address:${res.data.body.address}`)
+      .then(resolve)
+      .catch(reject)
+    }, 2000)
+  })
+})
+.then(res => {
+  console.log('\n#################################')
+  console.log('search by address', res.data)
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      return axios.get(`http://localhost:8000/stars/hash:${res.data.hash}`)
+      .then(resolve)
+      .catch(reject)
+    }, 2000)
+  })
+})
+.then(res => {
+  console.log('\n#################################')
+  console.log('search by hash', res.data)
 })
 .catch(e => console.log('caught error', e))
 

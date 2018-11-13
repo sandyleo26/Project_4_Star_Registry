@@ -83,6 +83,23 @@ class Blockchain {
     return JSON.parse(await DB.getLevelDBData(blockHeight));
   }
 
+  // find address in body
+  async findBlockByAddress(address) {
+    return await DB.findBlockBy(value => {
+      const parsedValue = JSON.parse(value)
+      const parsedBody = JSON.parse(parsedValue.body)
+      return parsedBody.address === address
+    })
+  }
+
+  // find by block hash
+  async findBlockByHash(hash) {
+    return await DB.findBlockBy(value => {
+      const parsedValue = JSON.parse(value)
+      return parsedValue.hash = hash
+    })
+  }
+
   // validate block
   async validateBlock(blockHeight) {
     // get block object

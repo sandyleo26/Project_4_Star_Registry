@@ -68,11 +68,27 @@ function getBlockCount() {
   })
 }
 
+function findBlockBy(f) {
+  return new Promise((resolve, reject) => {
+    db.createReadStream()
+    .on('data', function (data) {
+      if (f(data.value)) resolve(data.value);
+    })
+    .on('error', function (err) {
+      reject(err);
+    })
+    .on('close', function () {
+      resolve();
+    });
+  })
+}
+
 module.exports = {
   addLevelDBData,
   getLevelDBData,
   addDataToLevelDB,
   getBlockCount,
+  findBlockBy,
 }
 
 /* ===== Testing ==============================================================|
@@ -94,3 +110,17 @@ module.exports = {
 //   }, 100);
 // })(10);
 
+;(function test() {
+  db.createReadStream()
+  .on('data', function (data) {
+    // console.log('data', data.value)
+    const parsed = JSON.parse(data.value)
+    console.log('parsed', parsed)
+  })
+  .on('error', function (err) {
+    console.log('err', err)
+  })
+  .on('close', function () {
+    console.log('close')
+  })
+})();

@@ -54,6 +54,7 @@ module.exports.routes = {
   'POST /block': { action: 'blockchain/post-block', csrf: false, },
   'POST /requestValidation': { action: 'blockchain/request-validation', csrf: false, },
   'POST /message-signature/validate': { action: 'blockchain/validate', csrf: false, },
+  'GET /stars/:method': { action: 'blockchain/search' },
 
 
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
