@@ -1,3 +1,4 @@
+const isAscii = require('is-ascii')
 const Blockchain = sails.config.globals.simpleChain.Blockchain;
 const Block = sails.config.globals.simpleChain.Block;
 
@@ -8,6 +9,8 @@ const validateReq = req => {
   if (!req.body.star.dec) return 'dec of star is empty'
   if (!req.body.star.ra) return 'ra of star is empty'
   if (!req.body.star.story) return 'story of star is empty'
+  if (!isAscii(req.body.star.story)) return 'only ascii text supported for story'
+  if (req.body.star.story.length > 500) return 'max length for story is 500 bytes'
   return ''
 }
 
