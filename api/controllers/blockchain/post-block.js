@@ -30,11 +30,12 @@ module.exports = async function postBlock(req, res) {
   if (await myBlockchain.ready()) {
     const newBlock = new Block(JSON.stringify(req.body))
     await myBlockchain.addBlock(newBlock)
+    // ONLY ONE star is allowed to be registered per validation process
+    delete requestStore[address]
+    
     newBlock.body = JSON.parse(newBlock.body)
     newBlock.body.star.story = Buffer.from(req.body.star.story).toString('hex')
 
-    // ONLY ONE star is allowed to be registered per validation process
-    requestStore[address] = null
     return res.json(newBlock)
   }
 
