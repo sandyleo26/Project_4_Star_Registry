@@ -13,9 +13,13 @@ module.exports = async function getBlock(req, res) {
       }
 
       const result = await myBlockchain.getBlock(parseInt(id))
-      result.body = JSON.parse(result.body)
-      result.body.star.storyDecoded = result.body.star.story
-      result.body.star.story = Buffer.from(result.body.star.story).toString('hex')
+      try {
+        result.body = JSON.parse(result.body)
+        result.body.star.storyDecoded = result.body.star.story
+        result.body.star.story = Buffer.from(result.body.star.story).toString('hex')
+      } catch (err) {
+        console.log('caught err', err)
+      }
       return res.json(result)
   }
 

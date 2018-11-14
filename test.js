@@ -83,6 +83,13 @@ axios.post('http://localhost:8000/requestValidation', {
 })
 .catch(e => console.log('caught error', e))
 
+// test get genesis block
+axios.get('http://localhost:8000/block/0')
+.then(res => {
+  console.log('\n#################################')
+  console.log('test get genesis block', res.data)
+})
+
 // console.log('signature(base64)', signature)
 // const verifyResult = bitcoinMessage.verify(message, address, signature)
 // console.log('verifyResult', verifyResult)

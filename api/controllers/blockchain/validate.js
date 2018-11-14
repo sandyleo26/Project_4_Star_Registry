@@ -40,7 +40,7 @@ module.exports = async function validate(req, res) {
       address,
       requestTimeStamp: requestStore[address].requestTimeStamp.toString(),
       message,
-      validationWindow,
+      validationWindow: Math.floor(validationWindow / 1000),
       messageSignature: verifyResult ? 'valid' : 'invalid',
     }
   })
